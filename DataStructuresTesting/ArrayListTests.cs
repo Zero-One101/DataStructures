@@ -11,7 +11,9 @@ namespace DataStructuresTesting
         [TestMethod]
         public void AddAddsElementToEmptyList()
         {
-            Assert.IsTrue(new ArrayList<string> { "hello" }.Contains("hello"));
+            var list = new ArrayList<string>();
+            list.Add("hello");
+            Assert.IsTrue(list.Contains("hello"));
         }
 
         [TestMethod]
