@@ -112,6 +112,21 @@ namespace DataStructures
             itemCount++;
         }
 
+        public bool Remove(T item)
+        {
+            for (var i = 0; i < items.Length; i++)
+            {
+                if (items[i]?.Equals(item) ?? (item == null))
+                {
+                    var removalIndex = i;
+                    Array.Copy(items, removalIndex + 1, items, removalIndex, items.Length - removalIndex - 1);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public T this[int idx]
         {
             get
