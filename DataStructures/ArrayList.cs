@@ -10,8 +10,54 @@ namespace DataStructures
     /// <summary>
     /// A dynamically sized generic array
     /// </summary>
-    class ArrayList<T> : IEnumerable<T>
+    public class ArrayList<T> : IEnumerable<T>, IEnumerable
     {
+        private class Enumerator : IEnumerator<T>, IEnumerator
+        {
+            private ArrayList<T> arrayList;
+            private int curIdx;
+            private T curItem;
+
+            public Enumerator(ArrayList<T> arrayList)
+            {
+                this.arrayList = arrayList;
+                curIdx = -1;
+                curItem = default(T);
+            }
+
+            public T Current
+            {
+                get { return curItem; }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return Current; }
+            }
+
+            public void Dispose()
+            {
+                
+            }
+
+            public bool MoveNext()
+            {
+                if (++curIdx >= arrayList.Count)
+                {
+                    return false;
+                }
+
+                curItem = arrayList[curIdx];
+                return true;
+            }
+
+            public void Reset()
+            {
+                // Not bothered about COM interop, so we'll just throw this
+                throw new NotSupportedException();
+            }
+        }
+
         private const int InitSize = 4;
         private int actualSize;
         private int itemCount;
@@ -89,12 +135,12 @@ namespace DataStructures
         // TODO: Correctly implement these in order to use foreach
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }
